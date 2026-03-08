@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Saumya | Happy Women's Day</title>
+    <title>A Bouquet for Saumya</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --rose-deep: #e91e63;
+            --rose-deep: #d81b60;
             --rose-light: #ff85a2;
-            --lily-white: #fffafa;
-            --lily-pink: #f8bbd0;
+            --lily-white: #ffffff;
+            --lily-pink: #fce4ec;
             --sun-yellow: #ffca28;
-            --sun-orange: #f57f17;
+            --sun-center: #3e2723;
             --leaf-green: #2d5a27;
-            --stem-green: #1b4332;
         }
 
         body {
@@ -29,25 +28,26 @@
             overflow-x: hidden;
         }
 
-        .header {
-            margin-top: 40px;
+        header {
+            margin-top: 30px;
             text-align: center;
-            animation: fadeIn 2s ease;
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
+            font-size: 3.2rem;
             color: #880e4f;
             margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
         }
 
-        /* The Bouquet Container */
-        .bouquet-area {
+        /* Bouquet Container */
+        .bouquet-stage {
             position: relative;
-            width: 600px;
-            height: 500px;
-            margin: 20px auto;
+            width: 100%;
+            max-width: 600px;
+            height: 480px;
+            margin-top: 20px;
             display: flex;
             justify-content: center;
             align-items: flex-end;
@@ -56,173 +56,200 @@
         .flower {
             position: absolute;
             transform-origin: bottom center;
-            animation: bloom 1.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
-            filter: drop-shadow(2px 5px 10px rgba(0,0,0,0.1));
+            filter: drop-shadow(3px 5px 8px rgba(0,0,0,0.12));
+            animation: bloom 2s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
         }
 
-        /* Swaying animation for a lifelike feel */
         .sway {
-            animation: swaying 5s ease-in-out infinite alternate;
+            animation: swaying 6s ease-in-out infinite alternate;
         }
 
         @keyframes swaying {
-            from { transform: rotate(-1.5deg); }
-            to { transform: rotate(1.5deg); }
+            from { transform: rotate(-1deg); }
+            to { transform: rotate(1deg); }
         }
 
         @keyframes bloom {
-            0% { transform: scale(0) translateY(50px); opacity: 0; }
+            0% { transform: scale(0) translateY(40px); opacity: 0; }
             100% { transform: scale(1) translateY(0); opacity: 1; }
         }
 
-        /* Message Card */
+        /* Interactive Elements */
+        .reveal-btn {
+            background: var(--rose-deep);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(216, 27, 96, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            z-index: 100;
+        }
+
+        .reveal-btn:hover {
+            transform: scale(1.05);
+            background: #ad1457;
+        }
+
         .message-card {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            border-radius: 30px;
-            padding: 40px;
+            display: none;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 25px;
+            padding: 35px;
             max-width: 500px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            margin: 40px 20px;
-            transform: translateY(30px);
-            opacity: 0;
-            animation: slideUp 1.2s ease forwards 1s;
+            margin: 30px 20px;
+            animation: fadeIn 1.5s ease forwards;
         }
 
         .message-card p {
             color: #4a4a4a;
             line-height: 1.8;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
+            margin: 0;
         }
 
         .highlight {
             color: var(--rose-deep);
             font-weight: 600;
-            font-size: 1.3rem;
             display: block;
             margin-top: 15px;
-        }
-
-        @keyframes slideUp {
-            to { opacity: 1; transform: translateY(0); }
+            font-style: italic;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; } to { opacity: 1; }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Happy Women's Day, Saumya</h1>
-    </div>
+    <header>
+        <h1>For Saumya</h1>
+    </header>
 
-    <div class="bouquet-area" id="bouquet">
+    <div class="bouquet-stage" id="bouquet">
         </div>
 
-    <div class="message-card">
+    <button class="reveal-btn" id="revealBtn">Open the Card</button>
+
+    <div class="message-card" id="messageCard">
         <p>
-            For the girl who loves Roses and Lilies, here is a garden that will never fade. 
-            I added Sunflowers because that's what you do—you turn toward the light and bring it to everyone else.
-            <span class="highlight">Saumya, your smile is breathtaking. It's the kind of light this world needs more of. Never doubt how beautiful it makes you.</span>
+            I made this digital garden specifically for you, Saumya. 
+            I added Sunflowers because that is exactly who you are. 
+            You turn toward the light and you bring that warmth to everyone around you. 
+            <span class="highlight">
+                Your smile is genuinely breathtaking. 
+                It is the most beautiful thing about you and it lights up the world in a way these flowers can only dream of. 
+                Never feel the need to hide it.
+            </span>
         </p>
     </div>
 
     <script>
         const bouquet = document.getElementById('bouquet');
+        const revealBtn = document.getElementById('revealBtn');
+        const messageCard = document.getElementById('messageCard');
 
-        // Function to create a realistic leaf
-        function createLeaf(x, y, rotation, z) {
-            return `
-            <svg class="flower" style="left:${x}px; bottom:${y}px; z-index:${z}; transform: rotate(${rotation}deg);" width="100" height="100" viewBox="0 0 100 100">
-                <path d="M50 100 Q30 70 50 40 Q70 70 50 100" fill="#2d5a27" />
-                <path d="M50 100 L50 45" stroke="#1b4332" stroke-width="1" />
+        // Helper for Leaves in background
+        function createLeaf(x, y, rot, z) {
+            return `<svg class="flower" style="left:${x}px; bottom:${y}px; z-index:${z}; transform:rotate(${rot}deg)" width="120" height="120" viewBox="0 0 100 100">
+                <path d="M50 100 Q20 60 50 20 Q80 60 50 100" fill="#2d5a27" opacity="0.9"/>
+                <path d="M50 100 L50 30" stroke="#1b4332" stroke-width="1"/>
             </svg>`;
         }
 
-        // Function to create a Rose
+        // Realistic Rose
         function createRose(x, y, delay, z) {
-            return `
-            <div class="flower sway" style="left:${x}px; bottom:${y}px; animation-delay:${delay}s; z-index:${z};">
-                <svg width="120" height="150" viewBox="0 0 100 120">
-                    <path d="M50 120 Q55 90 50 70" stroke="var(--stem-green)" stroke-width="3" fill="none"/>
+            return `<div class="flower sway" style="left:${x}px; bottom:${y}px; animation-delay:${delay}s; z-index:${z}">
+                <svg width="130" height="160" viewBox="0 0 100 120">
+                    <path d="M50 120 Q55 90 50 70" stroke="#1b4332" stroke-width="3" fill="none"/>
                     <defs>
-                        <radialGradient id="roseGrad">
-                            <stop offset="20%" stop-color="#880e4f"/>
-                            <stop offset="100%" stop-color="var(--rose-light)"/>
+                        <radialGradient id="roseGrad${x}">
+                            <stop offset="30%" stop-color="#ad1457"/>
+                            <stop offset="100%" stop-color="#ff85a2"/>
                         </radialGradient>
                     </defs>
-                    <g transform="translate(50,60)">
-                        <circle r="25" fill="url(#roseGrad)" />
-                        <path d="M-20 -10 C-30 -30 30 -30 20 -10" fill="var(--rose-light)" opacity="0.8"/>
-                        <path d="M-15 0 C-25 -15 25 -15 15 0" fill="var(--rose-deep)" />
-                    </g>
-                </svg>
-            </div>`;
-        }
-
-        // Function to create a Lily
-        function createLily(x, y, delay, z) {
-            return `
-            <div class="flower sway" style="left:${x}px; bottom:${y}px; animation-delay:${delay}s; z-index:${z};">
-                <svg width="130" height="160" viewBox="0 0 100 120">
-                    <path d="M50 120 Q45 90 50 70" stroke="var(--stem-green)" stroke-width="2" fill="none"/>
                     <g transform="translate(50,65)">
-                        <path d="M0 0 Q-15 -50 0 -65 Q15 -50 0 0" fill="var(--lily-white)" stroke="var(--lily-pink)" />
-                        <path d="M0 0 Q-45 -15 -60 0 Q-45 15 0 0" fill="var(--lily-white)" stroke="var(--lily-pink)" />
-                        <path d="M0 0 Q45 -15 60 0 Q45 15 0 0" fill="var(--lily-white)" stroke="var(--lily-pink)" />
-                        <circle r="3" fill="#fbc02d" />
+                        <circle r="28" fill="url(#roseGrad${x})"/>
+                        <path d="M-25 -5 C-35 -25 35 -25 25 -5" fill="#f06292" opacity="0.7"/>
+                        <path d="M-15 5 C-25 -10 25 -10 15 5" fill="#d81b60"/>
+                        <circle r="8" fill="#880e4f" opacity="0.3"/>
                     </g>
                 </svg>
             </div>`;
         }
 
-        // Function to create a Sunflower
+        // Realistic Lily
+        function createLily(x, y, delay, z) {
+            return `<div class="flower sway" style="left:${x}px; bottom:${y}px; animation-delay:${delay}s; z-index:${z}">
+                <svg width="140" height="170" viewBox="0 0 100 120">
+                    <path d="M50 120 Q48 95 50 75" stroke="#1b4332" stroke-width="2" fill="none"/>
+                    <g transform="translate(50,70)">
+                        <path d="M0 0 Q-20 -55 0 -75 Q20 -55 0 0" fill="#fffafa" stroke="#f8bbd0" stroke-width="0.5"/>
+                        <path d="M0 0 Q-55 -20 -75 0 Q-55 20 0 0" fill="#fffafa" stroke="#f8bbd0" stroke-width="0.5"/>
+                        <path d="M0 0 Q55 -20 75 0 Q55 20 0 0" fill="#fffafa" stroke="#f8bbd0" stroke-width="0.5"/>
+                        <path d="M0 0 Q-35 45 0 65 Q35 45 0 0" fill="#fffafa" stroke="#f8bbd0" stroke-width="0.5"/>
+                        <circle r="4" fill="#fbc02d"/>
+                    </g>
+                </svg>
+            </div>`;
+        }
+
+        // Realistic Sunflower
         function createSunflower(x, y, delay, z) {
-            return `
-            <div class="flower sway" style="left:${x}px; bottom:${y}px; animation-delay:${delay}s; z-index:${z};">
-                <svg width="150" height="180" viewBox="0 0 100 120">
-                    <path d="M50 120 Q55 90 50 70" stroke="var(--stem-green)" stroke-width="4" fill="none"/>
-                    <g transform="translate(50,55)">
-                        ${Array.from({length: 12}, (_, i) => `
-                            <ellipse rx="8" ry="25" fill="var(--sun-yellow)" transform="rotate(${i * 30})" />
-                        `).join('')}
-                        <circle r="12" fill="#3e2723" />
+            return `<div class="flower sway" style="left:${x}px; bottom:${y}px; animation-delay:${delay}s; z-index:${z}">
+                <svg width="160" height="190" viewBox="0 0 100 120">
+                    <path d="M50 120 Q52 90 50 70" stroke="#1b4332" stroke-width="4" fill="none"/>
+                    <g transform="translate(50,60)">
+                        ${Array.from({length: 12}, (_, i) => 
+                            `<ellipse rx="10" ry="30" fill="#ffca28" transform="rotate(${i * 30})" />`
+                        ).join('')}
+                        <circle r="15" fill="#3e2723"/>
+                        <circle r="12" fill="#5d4037" opacity="0.5"/>
                     </g>
                 </svg>
             </div>`;
         }
 
-        let html = '';
+        // Assembly
+        let bouquetHtml = '';
+        
+        // Leaves (z-index 1)
+        bouquetHtml += createLeaf(100, 50, -25, 1);
+        bouquetHtml += createLeaf(380, 60, 25, 1);
+        bouquetHtml += createLeaf(240, 80, 5, 1);
 
-        // 1. Background Leaves (Extra Nice Effect)
-        html += createLeaf(180, 40, -30, 1);
-        html += createLeaf(320, 45, 30, 1);
-        html += createLeaf(250, 60, 0, 1);
+        // 2 Sunflowers (z-index 2 - back)
+        bouquetHtml += createSunflower(130, 65, 1.2, 2);
+        bouquetHtml += createSunflower(320, 75, 1.4, 2);
 
-        // 2. The 10 Flower Arrangement
-        // 4 Lilies (Mid-ground)
-        html += createLily(100, 20, 0.2, 3);
-        html += createLily(220, 35, 0.4, 3);
-        html += createLily(350, 25, 0.6, 3);
-        html += createLily(450, 40, 0.8, 3);
+        // 4 Lilies (z-index 3 - mid)
+        bouquetHtml += createLily(50, 30, 0.5, 3);
+        bouquetHtml += createLily(180, 45, 0.7, 3);
+        bouquetHtml += createLily(280, 35, 0.9, 3);
+        bouquetHtml += createLily(420, 40, 1.1, 3);
 
-        // 2 Sunflowers (Tallest/Back)
-        html += createSunflower(150, 60, 1.0, 2);
-        html += createSunflower(380, 55, 1.1, 2);
+        // 4 Roses (z-index 4 - front)
+        bouquetHtml += createRose(80, 5, 0.2, 4);
+        bouquetHtml += createRose(190, -10, 0.4, 4);
+        bouquetHtml += createRose(300, 5, 0.6, 4);
+        bouquetHtml += createRose(400, -5, 0.8, 4);
 
-        // 4 Pink Roses (Front/Foreground)
-        html += createRose(130, 5, 1.2, 5);
-        html += createRose(230, 0, 1.3, 5);
-        html += createRose(320, 10, 1.4, 5);
-        html += createRose(420, 5, 1.5, 5);
+        bouquet.innerHTML = bouquetHtml;
 
-        bouquet.innerHTML = html;
+        // Interaction
+        revealBtn.addEventListener('click', () => {
+            messageCard.style.display = 'block';
+            revealBtn.style.display = 'none';
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
     </script>
 </body>
 </html>
