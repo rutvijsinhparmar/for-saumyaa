@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Saumya | Happy Women's Day</title>
+    <style>
+        :root {
+            --rose-pink: #ff6b95;
+            --rose-dark: #e03a6c;
+            --lily-white: #fff5f7;
+            --lily-center: #ffd1dc;
+            --leaf-green: #4a7c44;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 50px;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #d81b60;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* The Bouquet Area */
+        .bouquet {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin: 20px auto;
+        }
+
+        /* Realistic Rose (Simplified SVG/CSS) */
+        .rose {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .rose-petal {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            background: var(--rose-pink);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Lily Design */
+        .lily {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+        }
+
+        .lily-petal {
+            position: absolute;
+            width: 20px;
+            height: 60px;
+            background: var(--lily-white);
+            border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
+            transform-origin: bottom center;
+            box-shadow: inset 0 -10px 10px var(--lily-center);
+        }
+
+        /* Message Card */
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 400px;
+            margin: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 1.5s ease forwards 1s;
+        }
+
+        .compliment {
+            color: #555;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .highlight {
+            color: #d81b60;
+            font-weight: bold;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bloom {
+            animation: bloomScale 2s ease-out forwards;
+        }
+
+        @keyframes bloomScale {
+            0% { transform: scale(0); rotate: -10deg; }
+            100% { transform: scale(1); rotate: 0deg; }
+        }
+
+        /* Floating Petals Effect */
+        .falling-petal {
+            position: fixed;
+            top: -10%;
+            background: var(--rose-pink);
+            border-radius: 150% 0 150% 0;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Happy Women's Day, Saumya! 🌸</h1>
+        
+        <div class="bouquet" id="bouquet">
+            </div>
+
+        <div class="card">
+            <p class="compliment">
+                "Saumya, they say a bouquet brings color to a room, but <span class="highlight">your smile</span> brings light to everything it touches. It’s the most beautiful thing about you—warm, genuine, and absolutely radiant. Never feel the need to hide it."
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function createFlowers() {
+            const bouquet = document.getElementById('bouquet');
+            
+            // Create Roses
+            for(let i=0; i<5; i++) {
+                const rose = document.createElement('div');
+                rose.className = 'rose bloom';
+                rose.style.left = `${20 + (i * 40)}px`;
+                rose.style.top = `${50 + (i % 2 * 30)}px`;
+                rose.style.animationDelay = `${i * 0.2}s`;
+                
+                // Add petals to rose
+                for(let p=0; p<6; p++) {
+                    const petal = document.createElement('div');
+                    petal.className = 'rose-petal';
+                    petal.style.transform = `rotate(${p * 60}deg) translate(15px)`;
+                    rose.appendChild(petal);
+                }
+                bouquet.appendChild(rose);
+            }
+
+            // Create Lilies
+            for(let i=0; i<3; i++) {
+                const lily = document.createElement('div');
+                lily.className = 'lily bloom';
+                lily.style.left = `${60 + (i * 70)}px`;
+                lily.style.top = `150px`;
+                lily.style.animationDelay = `${0.5 + i * 0.3}s`;
+
+                for(let p=0; p<6; p++) {
+                    const petal = document.createElement('div');
+                    petal.className = 'lily-petal';
+                    petal.style.transform = `rotate(${p * 60}deg)`;
+                    lily.appendChild(petal);
+                }
+                bouquet.appendChild(lily);
+            }
+        }
+
+        function createFallingPetals() {
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.className = 'falling-petal';
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.width = Math.random() * 15 + 5 + 'px';
+                petal.style.height = petal.style.width;
+                petal.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                
+                document.body.appendChild(petal);
+                setTimeout(() => petal.remove(), 5000);
+            }, 300);
+        }
+
+        // Add falling animation dynamically
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        createFlowers();
+        createFallingPetals();
+    </script>
+</body>
+</html>
