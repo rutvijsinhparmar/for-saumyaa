@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Bouquet for Saumya</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Saumya | Happy Women's Day</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,8 +12,12 @@
             --lily-white: #ffffff;
             --lily-pink: #fce4ec;
             --sun-yellow: #ffca28;
-            --sun-center: #3e2723;
             --leaf-green: #2d5a27;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -26,37 +30,43 @@
             align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
+            width: 100%;
         }
 
         header {
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: center;
+            padding: 0 10px;
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 3.2rem;
+            font-size: clamp(2.5rem, 8vw, 3.5rem);
             color: #880e4f;
             margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
         }
 
-        /* Bouquet Container */
+        /* Bouquet Stage - Responsive Scaling */
         .bouquet-stage {
             position: relative;
             width: 100%;
-            max-width: 600px;
-            height: 480px;
-            margin-top: 20px;
+            max-width: 500px; /* Perfect for iPhone widths */
+            height: 400px;
+            margin-top: 10px;
             display: flex;
             justify-content: center;
             align-items: flex-end;
+            transform: scale(0.9); /* Slight scale down for smaller screens */
+        }
+
+        @media (min-width: 400px) {
+            .bouquet-stage { transform: scale(1); height: 450px; }
         }
 
         .flower {
             position: absolute;
             transform-origin: bottom center;
-            filter: drop-shadow(3px 5px 8px rgba(0,0,0,0.12));
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
             animation: bloom 2s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
         }
 
@@ -65,8 +75,8 @@
         }
 
         @keyframes swaying {
-            from { transform: rotate(-1deg); }
-            to { transform: rotate(1deg); }
+            from { transform: rotate(-1.5deg); }
+            to { transform: rotate(1.5deg); }
         }
 
         @keyframes bloom {
@@ -74,43 +84,60 @@
             100% { transform: scale(1) translateY(0); opacity: 1; }
         }
 
-        /* Interactive Elements */
+        /* Mobile Petals */
+        .petal {
+            position: fixed;
+            background-color: var(--rose-light);
+            border-radius: 150% 0 150% 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.6;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
         .reveal-btn {
             background: var(--rose-deep);
             color: white;
             border: none;
-            padding: 15px 35px;
+            padding: 16px 40px;
             font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 10px 20px rgba(216, 27, 96, 0.3);
-            transition: all 0.3s ease;
-            margin-top: 20px;
+            transition: transform 0.2s;
+            margin-top: 10px;
             z-index: 100;
+            font-weight: 500;
         }
 
-        .reveal-btn:hover {
-            transform: scale(1.05);
-            background: #ad1457;
+        .reveal-btn:active {
+            transform: scale(0.95);
         }
 
         .message-card {
             display: none;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: 25px;
-            padding: 35px;
-            max-width: 500px;
+            padding: 25px;
+            width: 90%;
+            max-width: 450px;
             text-align: center;
-            margin: 30px 20px;
-            animation: fadeIn 1.5s ease forwards;
+            margin: 20px auto 40px;
+            z-index: 10;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
         }
 
         .message-card p {
             color: #4a4a4a;
-            line-height: 1.8;
-            font-size: 1.15rem;
+            line-height: 1.7;
+            font-size: 1rem;
             margin: 0;
         }
 
@@ -118,8 +145,9 @@
             color: var(--rose-deep);
             font-weight: 600;
             display: block;
-            margin-top: 15px;
+            margin-top: 12px;
             font-style: italic;
+            font-size: 1.1rem;
         }
 
         @keyframes fadeIn {
@@ -134,8 +162,7 @@
         <h1>For Saumya</h1>
     </header>
 
-    <div class="bouquet-stage" id="bouquet">
-        </div>
+    <div class="bouquet-stage" id="bouquet"></div>
 
     <button class="reveal-btn" id="revealBtn">Open the Card</button>
 
@@ -157,98 +184,85 @@
         const revealBtn = document.getElementById('revealBtn');
         const messageCard = document.getElementById('messageCard');
 
-        // Helper for Leaves in background
+        // Optimized Petal Gen for Mobile
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            const size = Math.random() * 8 + 8 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.top = '-5vh';
+            const duration = Math.random() * 4 + 4;
+            petal.style.animationDuration = duration + 's';
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), duration * 1000);
+        }
+        setInterval(createPetal, 600);
+
+        // Flower SVG Logic
         function createLeaf(x, y, rot, z) {
-            return `<svg class="flower" style="left:${x}px; bottom:${y}px; z-index:${z}; transform:rotate(${rot}deg)" width="120" height="120" viewBox="0 0 100 100">
-                <path d="M50 100 Q20 60 50 20 Q80 60 50 100" fill="#2d5a27" opacity="0.9"/>
-                <path d="M50 100 L50 30" stroke="#1b4332" stroke-width="1"/>
+            return `<svg class="flower" style="left:${x}%; bottom:${y}px; z-index:${z}; transform:rotate(${rot}deg)" width="100" height="100" viewBox="0 0 100 100">
+                <path d="M50 100 Q20 60 50 20 Q80 60 50 100" fill="#2d5a27" opacity="0.8"/>
             </svg>`;
         }
 
-        // Realistic Rose
         function createRose(x, y, delay, z) {
-            return `<div class="flower sway" style="left:${x}px; bottom:${y}px; animation-delay:${delay}s; z-index:${z}">
-                <svg width="130" height="160" viewBox="0 0 100 120">
+            return `<div class="flower sway" style="left:${x}%; bottom:${y}px; animation-delay:${delay}s; z-index:${z}">
+                <svg width="100" height="130" viewBox="0 0 100 120">
                     <path d="M50 120 Q55 90 50 70" stroke="#1b4332" stroke-width="3" fill="none"/>
-                    <defs>
-                        <radialGradient id="roseGrad${x}">
-                            <stop offset="30%" stop-color="#ad1457"/>
-                            <stop offset="100%" stop-color="#ff85a2"/>
-                        </radialGradient>
-                    </defs>
                     <g transform="translate(50,65)">
-                        <circle r="28" fill="url(#roseGrad${x})"/>
-                        <path d="M-25 -5 C-35 -25 35 -25 25 -5" fill="#f06292" opacity="0.7"/>
-                        <path d="M-15 5 C-25 -10 25 -10 15 5" fill="#d81b60"/>
-                        <circle r="8" fill="#880e4f" opacity="0.3"/>
+                        <circle r="26" fill="url(#roseGrad${x})"/>
+                        <path d="M-22 -5 C-32 -22 32 -22 22 -5" fill="#f06292" opacity="0.8"/>
+                        <path d="M-12 5 C-22 -10 22 -10 12 5" fill="#d81b60"/>
                     </g>
+                    <defs><radialGradient id="roseGrad${x}"><stop offset="30%" stop-color="#ad1457"/><stop offset="100%" stop-color="#ff85a2"/></radialGradient></defs>
                 </svg>
             </div>`;
         }
 
-        // Realistic Lily
         function createLily(x, y, delay, z) {
-            return `<div class="flower sway" style="left:${x}px; bottom:${y}px; animation-delay:${delay}s; z-index:${z}">
-                <svg width="140" height="170" viewBox="0 0 100 120">
+            return `<div class="flower sway" style="left:${x}%; bottom:${y}px; animation-delay:${delay}s; z-index:${z}">
+                <svg width="110" height="140" viewBox="0 0 100 120">
                     <path d="M50 120 Q48 95 50 75" stroke="#1b4332" stroke-width="2" fill="none"/>
                     <g transform="translate(50,70)">
-                        <path d="M0 0 Q-20 -55 0 -75 Q20 -55 0 0" fill="#fffafa" stroke="#f8bbd0" stroke-width="0.5"/>
-                        <path d="M0 0 Q-55 -20 -75 0 Q-55 20 0 0" fill="#fffafa" stroke="#f8bbd0" stroke-width="0.5"/>
-                        <path d="M0 0 Q55 -20 75 0 Q55 20 0 0" fill="#fffafa" stroke="#f8bbd0" stroke-width="0.5"/>
-                        <path d="M0 0 Q-35 45 0 65 Q35 45 0 0" fill="#fffafa" stroke="#f8bbd0" stroke-width="0.5"/>
-                        <circle r="4" fill="#fbc02d"/>
+                        <path d="M0 0 Q-15 -45 0 -65 Q15 -45 0 0" fill="#fffafa" stroke="#f8bbd0" stroke-width="0.5"/>
+                        <path d="M0 0 Q-45 -15 -65 0 Q-45 15 0 0" fill="#fffafa" stroke="#f8bbd0" stroke-width="0.5"/>
+                        <path d="M0 0 Q45 -15 65 0 Q45 15 0 0" fill="#fffafa" stroke="#f8bbd0" stroke-width="0.5"/>
+                        <circle r="3" fill="#fbc02d"/>
                     </g>
                 </svg>
             </div>`;
         }
 
-        // Realistic Sunflower
         function createSunflower(x, y, delay, z) {
-            return `<div class="flower sway" style="left:${x}px; bottom:${y}px; animation-delay:${delay}s; z-index:${z}">
-                <svg width="160" height="190" viewBox="0 0 100 120">
+            return `<div class="flower sway" style="left:${x}%; bottom:${y}px; animation-delay:${delay}s; z-index:${z}">
+                <svg width="130" height="160" viewBox="0 0 100 120">
                     <path d="M50 120 Q52 90 50 70" stroke="#1b4332" stroke-width="4" fill="none"/>
                     <g transform="translate(50,60)">
-                        ${Array.from({length: 12}, (_, i) => 
-                            `<ellipse rx="10" ry="30" fill="#ffca28" transform="rotate(${i * 30})" />`
-                        ).join('')}
-                        <circle r="15" fill="#3e2723"/>
-                        <circle r="12" fill="#5d4037" opacity="0.5"/>
+                        ${Array.from({length: 12}, (_, i) => `<ellipse rx="10" ry="28" fill="#ffca28" transform="rotate(${i * 30})" />`).join('')}
+                        <circle r="14" fill="#3e2723"/>
                     </g>
                 </svg>
             </div>`;
         }
 
-        // Assembly
+        // Assembly using % for horizontal positioning to fit mobile
         let bouquetHtml = '';
-        
-        // Leaves (z-index 1)
-        bouquetHtml += createLeaf(100, 50, -25, 1);
-        bouquetHtml += createLeaf(380, 60, 25, 1);
-        bouquetHtml += createLeaf(240, 80, 5, 1);
-
-        // 2 Sunflowers (z-index 2 - back)
-        bouquetHtml += createSunflower(130, 65, 1.2, 2);
-        bouquetHtml += createSunflower(320, 75, 1.4, 2);
-
-        // 4 Lilies (z-index 3 - mid)
-        bouquetHtml += createLily(50, 30, 0.5, 3);
-        bouquetHtml += createLily(180, 45, 0.7, 3);
-        bouquetHtml += createLily(280, 35, 0.9, 3);
-        bouquetHtml += createLily(420, 40, 1.1, 3);
-
-        // 4 Roses (z-index 4 - front)
-        bouquetHtml += createRose(80, 5, 0.2, 4);
-        bouquetHtml += createRose(190, -10, 0.4, 4);
-        bouquetHtml += createRose(300, 5, 0.6, 4);
-        bouquetHtml += createRose(400, -5, 0.8, 4);
-
+        bouquetHtml += createLeaf(30, 40, -25, 1) + createLeaf(60, 50, 25, 1) + createLeaf(45, 70, 5, 1);
+        bouquetHtml += createSunflower(25, 60, 1.2, 2) + createSunflower(65, 70, 1.4, 2);
+        bouquetHtml += createLily(10, 25, 0.5, 3) + createLily(35, 40, 0.7, 3) + createLily(55, 30, 0.9, 3) + createLily(75, 35, 1.1, 3);
+        bouquetHtml += createRose(15, 0, 0.2, 4) + createRose(38, -10, 0.4, 4) + createRose(58, 5, 0.6, 4) + createRose(78, -5, 0.8, 4);
         bouquet.innerHTML = bouquetHtml;
 
-        // Interaction
+        // Button Logic
         revealBtn.addEventListener('click', () => {
             messageCard.style.display = 'block';
             revealBtn.style.display = 'none';
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            messageCard.style.animation = 'fadeIn 1s ease forwards';
+            setTimeout(() => {
+                messageCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
         });
     </script>
 </body>
